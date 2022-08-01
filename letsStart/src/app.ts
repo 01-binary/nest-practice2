@@ -4,12 +4,14 @@ import { Cat, CatType } from './app.model';
 const app: express.Express = express();
 
 app.use((req, res, next) => {
+  //전체 라우터 미들웨어
   console.log(req.rawHeaders[1]);
   console.log('this is logging middleware');
   next();
 });
 
 app.get('/cats/som', (req, res, next) => {
+  //해당 endpoint 라우터 미들웨어
   console.log('this is som middleware');
   next();
 });
@@ -27,6 +29,7 @@ app.get('/cats/som', (req, res) => {
 });
 
 app.use((req, res, next) => {
+  // 아무 router에 안걸릴때
   console.log('this is error middleware');
   res.send({ error: '404 not found error' });
 });
