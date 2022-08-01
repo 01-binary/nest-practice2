@@ -4,10 +4,10 @@ import * as express from 'express';
 import catsRouter from './cats/cats.route';
 
 class Server {
-  public app: Express.Application;
+  public app: express.Application;
 
   constructor() {
-    const app: Express.Application = express();
+    const app: express.Application = express();
     this.app = app;
   }
 
@@ -25,6 +25,7 @@ class Server {
 
     //* json middleware
     this.app.use(express.json());
+
     this.setRoute();
 
     //* 404 middleware
