@@ -1,15 +1,22 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { Cat } from './cat.schema';
-import { CatRequestDto } from './dto/cats.request.dto';
-import { CatsRepository } from './cats.repository';
+import { Cat } from '../cat.schema';
+import { CatRequestDto } from '../dto/cats.request.dto';
+import { CatsRepository } from '../cats.repository';
 
 @Injectable()
 export class CatsService {
   constructor(private readonly catRepository: CatsRepository) {}
 
+  async uploadImg(cat: Cat, files: Express.Multer.File[]) {
+    const fileName = `cats/${files[0].fieldname}`;
+    const newCat = await this.catRepository.findByIdAndUpdateImg(
+      cat.id,
+      fileName,
+    );
+
+    return newCat;
+  }
   async signUp(body: CatRequestDto) {
     const { email, name, password } = body;
     const isCatExist = await this.catRepository.existsByEmail(email);
