@@ -8,6 +8,12 @@ import { CatsRepository } from '../cats.repository';
 export class CatsService {
   constructor(private readonly catRepository: CatsRepository) {}
 
+  async getAllCat() {
+    const allCat = await this.catRepository.findAll();
+    const readOnlyCats = allCat.map((cat) => cat.readOnlyData);
+    return readOnlyCats;
+  }
+
   async uploadImg(cat: Cat, files: Express.Multer.File[]) {
     const fileName = `cats/${files[0].fieldname}`;
     const newCat = await this.catRepository.findByIdAndUpdateImg(
